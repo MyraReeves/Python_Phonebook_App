@@ -1,2 +1,3 @@
 # Python_Phonebook_App
-School assignment
+
+School assignment using Python and Sqlite3.
