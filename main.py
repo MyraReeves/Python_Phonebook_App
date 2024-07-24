@@ -30,4 +30,24 @@ class ParentWindow(Frame):
         # Set a title for this form window that is being created on the screen:
         self.master.title("Demo Tkinter Phonebook")
 
-        # Load the imported GUI widgets from the GUI module:
+        # Set the background color of the window to a very light blue shade:
+        self.master.configure(bg="#e7feff")
+
+        # TO-DO: Create a prototcol to catch Window OS's built-in event button "WM_DELETE_WINDOW" so that when that is clicked the program will access the function.py file and use its "ask_quit" function (passing in "self") to ask for confirmation before closing the window. This will occur if the user clicks the "X" in the upper right corner of the window:
+
+        # arg = self.master
+
+        # Load the imported GUI widget from the GUI module file, passing in "self":
+
+
+
+# When this main application module runs...
+if __name__ == "__main__":
+    # Create a window from Tkinter and assign it to a variable named "root":
+    root = tk.Tk()
+
+    # Use the above ParentWindow class app to pass that "root" variable into:
+    App = ParentWindow(root)
+
+    # And create a main loop for it to run so that the window stays persistently open until manually closed by the user:
+    root.mainloop()
