@@ -36,3 +36,10 @@ def load_gui(self):
 
 
     # **************** TEXT BOXES *****************************
+
+
+
+
+# If an attempt is made to accidentally run this GUI file as its own stand-alone module, make certain nothing occurs: 
+if __name__ == "__main__":
+    pass
