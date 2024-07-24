@@ -7,7 +7,8 @@ from tkinter import *
 # Import Tkinter's messagebox:
 from tkinter import messagebox
 
-# TO-DO:  Import the other modules created for this phonebook app:
+# TO-DO:  Import the other 2 module scripts created for this phonebook app:
+import GUI
 
 
 # Create a class that creates a form window on the screen and have it inherit from the built-in Tkinter Frame class object:
@@ -33,11 +34,12 @@ class ParentWindow(Frame):
         # Set the background color of the window to a very light blue shade:
         self.master.configure(bg="#e7feff")
 
-        # TO-DO: Create a prototcol to catch Window OS's built-in event button "WM_DELETE_WINDOW" so that when that is clicked the program will access the function.py file and use its "ask_quit" function (passing in "self") to ask for confirmation before closing the window. This will occur if the user clicks the "X" in the upper right corner of the window:
+        # TO-DO: Create a prototcol to catch Window OS's built-in event button "WM_DELETE_WINDOW" so that when that is clicked the program will access the function.py file and use its "ask_quit" function (passing in this ParentWindow) to ask for confirmation before closing the window. This will occur if the user clicks the "X" in the upper right corner of the window:
 
         # arg = self.master
 
-        # Load the imported GUI widget from the GUI module file, passing in "self":
+        # Load the imported load_gui function widget from the GUI module file, passing in this ParentWindow class:
+        GUI.load_gui(self)
 
 
 
@@ -46,8 +48,9 @@ if __name__ == "__main__":
     # Create a window from Tkinter and assign it to a variable named "root":
     root = tk.Tk()
 
-    # Use the above ParentWindow class app to pass that "root" variable into:
+    # Use the above ParentWindow class as an "App" object to pass that "root" variable into:
     App = ParentWindow(root)
 
-    # And create a main loop for it to run so that the window stays persistently open until manually closed by the user:
+    # And run a main loop so that the window stays persistently open until manually closed by the user:
     root.mainloop()
+    
