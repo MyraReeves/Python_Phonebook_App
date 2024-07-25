@@ -19,16 +19,16 @@ class ParentWindow(Frame):
     def __init__ (self, master, *args, **kwargs):
         Frame.__init__(self, master, *args, **kwargs)
 
-        # Access the "master" object from the parent by specifying self:
+        # Access the "master" object from the ParentWindow class by specifying self:
         self.master = master
 
-        # Make the window a set size that can't be resized by the user by setting the minimum and maximum window size to be the same dimensisions. 500px high and 300px wide:
+        # Make the window a set size that can't be resized by the user by setting the minimum and maximum window size to be the same dimensisions:
         self.master.minsize(500, 300)
         self.master.maxsize(500, 300)
         # This could have also been done by using:     self.master.resizable(width=False, height=False)
 
-        # Access the functions file and use its "center window" function widget.  Pass in "self" and the height/width dimensions of the window:
-        functionsFile.center_window(self,500,300)
+        # Access the functions file and use its "center window" function widget.  Pass in the ParentWindow (ie "self") and the height/width dimensions of the window:
+        functionsFile.center_window(self, 500, 300)
 
         # Set a title for this form window that is being created on the screen:
         self.master.title("Demo Tkinter Phonebook")
