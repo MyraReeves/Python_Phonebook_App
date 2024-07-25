@@ -20,7 +20,7 @@ def load_gui(self):
     # Create a "First Name" label object by instantiating/calling Tkinter's "Label" class, naming it, placing it on the primary window form (the master level of the class), and defining what the value of its text attribute should be: 
     self.label_firstName = tk.Label(self.master, text = 'First Name: ')
 
-    # Place it onto the form window using the grid geometry manager. Give it a padding of 27px to the left and 10px on top, and make sure it goes into the upper(north) leftmost (west) of the window:
+    # Place it onto the form window using the grid geometry manager. Give it a padding of 27px to the left and 10px on top, and make sure it goes into the upper(north) leftmost (west) of the cell:
     self.label_firstName.grid(row=0, column=0, padx=(27,0), pady=(10,0), sticky=N+W)
 
     # Repeat the same again to create label objects of "Last Name", "Phone Number", "Email", and "Users".  Remember to skip rows to allow for the text boxes to fit between these labels:
@@ -79,13 +79,16 @@ def load_gui(self):
     self.button_close.grid(row=8, column=4, padx=(15,0), pady=(45,10), sticky=E)
 
 
-    # **************** CREATE THE DATABASE *********************
+
+
+    # Create the database:
     functionsFile.create_db(self)
 
+    # Populate the listbox of names in the database:
     functionsFile.onRefresh(self)
 
 
 
-# If an attempt is made to accidentally run this GUI file as its own stand-alone module, make certain nothing occurs: 
+# **************** If an attempt is made to accidentally run this GUI file as its own stand-alone module, make certain nothing occurs: 
 if __name__ == "__main__":
     pass
