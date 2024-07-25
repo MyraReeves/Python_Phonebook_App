@@ -7,7 +7,8 @@ from tkinter import *
 # Import Tkinter's messagebox:
 from tkinter import messagebox
 
-# TO-DO:  Import the other 2 module scripts created for this phonebook app:
+# Import the other 2 module scripts created for this phonebook app:
+import functionsFile
 import GUI
 
 
@@ -26,7 +27,8 @@ class ParentWindow(Frame):
         self.master.maxsize(500, 300)
         # This could have also been done by using:     self.master.resizable(width=False, height=False)
 
-        # TO-DO: Access the function.py file and use its "center window" function.  Pass in "self" and the height/width dimensions of the window:
+        # Access the functions file and use its "center window" function widget.  Pass in "self" and the height/width dimensions of the window:
+        functionsFile.center_window(self,500,300)
 
         # Set a title for this form window that is being created on the screen:
         self.master.title("Demo Tkinter Phonebook")
@@ -34,7 +36,8 @@ class ParentWindow(Frame):
         # Set the background color of the window to a very light blue shade:
         self.master.configure(bg="#e7feff")
 
-        # TO-DO: Create a prototcol to catch Window OS's built-in event button "WM_DELETE_WINDOW" so that when that is clicked the program will access the function.py file and use its "ask_quit" function (passing in this ParentWindow) to ask for confirmation before closing the window. This will occur if the user clicks the "X" in the upper right corner of the window:
+        # Create a prototcol to catch Window OS's built-in event button "WM_DELETE_WINDOW" so that when that is clicked the program will access the functions file and use its "ask_quit" function widget (passing in this ParentWindow) to ask for confirmation before closing the window. This will occur if the user clicks the "X" in the upper right corner of the window:
+        self.master.protocol("WM_DELETE_WINDOW", lambda: functionsFile.ask_quit(self))
 
         # arg = self.master
 
@@ -53,4 +56,3 @@ if __name__ == "__main__":
 
     # And run a main loop so that the window stays persistently open until manually closed by the user:
     root.mainloop()
-    
