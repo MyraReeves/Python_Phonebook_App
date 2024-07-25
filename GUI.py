@@ -53,8 +53,14 @@ def load_gui(self):
 
 
     # **************** USERS LIST BOX & SCROLLBAR *****************************
+    self.scrollbar = Scrollbar(self.master, orient=VERTICAL)
+    self.scrollbar.grid(row=1, rowspan=7, column=5, padx=(0,0), pady=(0,0), sticky=N+E+S)
 
+    self.listBox = Listbox(self.master, exportselection=0, yscrollcommand=self.scrollbar.set)
+    self.listBox.grid(row=1, rowspan=7, column=2, columnspan=3, padx=(0,0), pady=(0,0), sticky=N+E+W+S)
 
+    self.listBox.bind('<<ListboxSelect>>', lambda event: functionsFile.onSelect(self, event))
+    self.scrollbar.config(command=self.listBox.yview)
 
 
 # If an attempt is made to accidentally run this GUI file as its own stand-alone module, make certain nothing occurs: 
