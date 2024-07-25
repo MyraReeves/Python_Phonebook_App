@@ -10,6 +10,8 @@ from tkinter import messagebox
 # Import the other 2 module scripts created for this phonebook app:
 import main
 
+
+
 # Create a function to define the widgets (labels, buttons, text boxes, scrollbars, etc.) inside the window on the screen.  Pass in itself to access the class objects:
 def load_gui(self):
 
@@ -35,7 +37,22 @@ def load_gui(self):
     self.label_user.grid(row=0, column=2, padx=(0,0), pady=(10,0), sticky=N+W)
 
 
-    # **************** TEXT BOXES *****************************
+    # **************** EMPTY TEXT BOXES *****************************
+    self.text_firstName = tk.Entry(self.master, text='')
+    # These empty text boxes should span the width of 2 columns to allow for long entries:
+    self.text_firstName.grid(row=1, column=0, columnspan=2, padx=(30,40), pady=(0,0), sticky=N+E+W)
+
+    self.text_lastName = tk.Entry(self.master, text='')
+    self.text_lastName.grid(row=3, column=0, columnspan=2, padx=(30,40), pady=(0,0), sticky=N+E+W)
+
+    self.text_phone = tk.Entry(self.master, text='')
+    self.text_phone.grid(row=5, column=0, columnspan=2, padx=(30,40), pady=(0,0), sticky=N+E+W)
+
+    self.text_email = tk.Entry(self.master, text='')
+    self.text_email.grid(row=7, column=0, columnspan=2, padx=(30,40), pady=(0,0), sticky=N+E+W)
+
+
+    # **************** USERS LIST BOX & SCROLLBAR *****************************
 
 
 
