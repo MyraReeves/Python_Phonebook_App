@@ -50,3 +50,38 @@ def ask_quit(self):
         # ...and using the operating system's built-in "exit()" method fully delete any parts of memory that had been used by this app: 
         os._exit(0)
 
+
+
+# **************** CREATE DATABASE ********************
+# Create a function that builds a database
+def create_db(self):
+
+    # Create a connection to a new database called "phonebook" by using SQLite's built-in connect() method
+    connection = sqlite3.connect('phonebook.db')
+
+    # If creating that connection was successful/error-free...
+    with connection:
+
+        # ...use the cursor of our connection class object...
+        cur = connection.cursor()
+
+        # ...to create a table and its column names with their data types:
+        cur.execute("CREATE TABLE if not exists table_phonebook ( \
+            ID INTEGER PRIMARY KEY AUTOINCREMENT, \
+            column_firstName TEXT, \
+            column_lastName TEXT, \
+            column_fullName TEXT, \
+            column_phone TEXT, \
+            column_email TEXT \
+            );")
+        
+        # Use the commit() method to save the above changes:
+        connection.commit()
+
+    # Close the database:
+    connection.close()
+
+    # Since the database is currently empty, pass this "create_db" function into the "first_run" function below:
+    first_run(self)
+
+
