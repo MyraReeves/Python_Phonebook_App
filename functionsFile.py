@@ -53,16 +53,16 @@ def ask_quit(self):
 
 
 # **************** CREATE DATABASE ********************
-# Create a function that builds a database
+# Create a function to build a database:
 def create_db(self):
 
-    # Create a connection to a new database called "phonebook" by using SQLite's built-in connect() method
+    # Create a connection to a new database called "phonebook" by using SQLite's built-in connect() method:
     connection = sqlite3.connect('phonebook.db')
 
     # If creating that connection was successful/error-free...
     with connection:
 
-        # ...use the cursor of our connection class object...
+        # ...then use the cursor of our connection class object...
         cur = connection.cursor()
 
         # ...to create a table and its column names with their data types:
@@ -85,3 +85,42 @@ def create_db(self):
     first_run(self)
 
 
+
+# **************** INSERT EXAMPLE TEXT INTO DATABASE TABLE ********************
+# Create a function that
+def first_run(self):
+
+    # Connect to the "phonebook" database by using SQLite's built-in "connect()" method:
+    connection = sqlite3.connect('phonebook.db')
+
+    # If creating that connection was successful...
+    with connection:
+        # ...then access the cursor object and assign it to the "cur" variable...
+        cur = connection.cursor()
+        # ...and use that variable to execute the "count_records" function: 
+        cur, count = count_records(cur)
+
+        # If there isn't any data in the database (ie. zero rows in the only table)...
+        if count < 1:
+            # ...then create a 4 indices long tuple of first row example data into the table, to prevent errors:
+            cur.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""", ('Example','Last-name','Example Last-name','555-555-5555','john_doe@example.com'))
+            # ...and save these changes to the database:
+            connection.commit()
+    # Close the database:
+    connection.close()
+
+
+# **************** COUNT NUMBER OF ROWS CURRENTLY IN THE DATABASE TABLE ********************
+def count_records(cur):
+    # Create an empty count variable:
+    count = ""
+
+    # Use SQLite's built-in "execute()" to count all the rows in the table:
+    cur.execute("""SELECT COUNT(*) FROM table_phonebook""")
+
+    # Extract the very first indexed value from that (ie. the value of the ID integer primary key) and set it as the value of the "count" variable:
+    count = cur.fetchone()[0]
+
+    # Return the cursor and the number of rows:
+    return cur, count
+  
