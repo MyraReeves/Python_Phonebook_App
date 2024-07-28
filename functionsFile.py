@@ -52,6 +52,7 @@ def ask_quit(self):
 
 
 
+
 # **************** CREATE DATABASE ********************
 # Create a function to build a database:
 def create_db(self):
@@ -83,6 +84,7 @@ def create_db(self):
 
     # Since the database is currently empty, pass this "create_db" function into the "first_run" function below:
     first_run(self)
+
 
 
 
@@ -126,6 +128,7 @@ def count_records(cur):
   
 
 
+
 # **************** LOOK-UP INFORMATION ********************
 # Create a function to handle if a user selects a name inside the list box:
 def onSelect(self,event):
@@ -161,5 +164,76 @@ def onSelect(self,event):
             self.txt_phone.insert(0,data[2])
             self.txt_email.delete(0,END)
             self.txt_email.insert(0,data[3])
+
+
+
+
+# **************** ADD NEW INFORMATION INPUTTED BY USER ********************
+# Create a function to add new inputted information from the user into the stored list:
+def addToList(self):
+    var_fname = self.text_firstName.get()
+    var_lname = self.text_lastName.get()
+
+    # Correct for user error Part 1 -- Remove any potential blank spaces before and/or after the user's entries:
+    var_fname = var_fname.strip()
+    var_lname = var_lname.strip()
+    # Alternatively, those two separate steps could be combined into only one step:
+    var_phone = self.text_phone.get().strip()
+    var_email = self.text_email.get().strip()
+    
+    # Correct for user error Part 2 -- Ensure that the first character in each word of the entered name is capitalized:
+    var_fname = var_fname.title()
+    var_lname = var_lname.title()
+
+    # Correct for user error Part 3 -- Ensure that proper email address format was used:
+    if not "@" or not "." in var_email:
+        print("ERROR: Incorrect email format entered!")
+
+    # Create a "var_fullname" variable to hold the combination of the entered first and last names: 
+    var_fullname = ("{} {}".format(var_fname, var_lname))
+    # Allow devs to confirm via the console that the names combined successfully:
+    print("var_fullname: {}".format(var_fullname))
+
+    # Correct for user error Part 4 -- Ensure the user didn't leave any fields blank:
+    # If the length (ie. number of characters) of EVERY variable is at least 1 character long....
+    if (len(var_fname) > 0) and (len(var_lname) > 0) and (len(var_phone) > 0) and(len(var_email) > 0):
+        # ...connect to the database:
+        connection = sqlite3.connect('phonebook.db')
+        # If the connection is good...
+        with connection:
+            # ...then access the cursor object...
+            cursor = connection.cursor()
+            # ...and check the database for the existance of the inputted fullname:
+            cursor.execute("""SELECT COUNT(column_fullName) FROM table_phonebook WHERE column_fullName = '{}'""".format(var_fullname))
+            count = cursor.fetchone()[0]
+            checkName = count
+
+            # If the full name does NOT already exist in the database (ie. the count is zero), then proceed with adding the information:
+            if checkName == 0:
+                # Check for errors. Allow devs to see in the console that this function is working correctly:
+                print("checkName: {}".format(checkName))
+                # Insert the entered information into the database's table:
+                cursor.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""",(var_fname, var_lname, var_fullname, var_phone, var_email))
+                # Update the listBox widget by inserting the newly inputted full name:
+                self.listBox.insert(END, var_fullname)
+                # ...and use the onClear() function to clear all of the text boxes to prepare for future user actions:
+                onClear(self)
+
+
+            #  If the full name already exists in the database, then disregard the add request, alert the user, and clear the text:
+            else:
+                messagebox.showerror("ERROR: Duplicate Name!","'{}' already exists in the database! Please alter the new name if you are adding a new person's information.".format(var_fullname))
+                onClear(self)
+
+        # Use the commit() method to save the above changes:
+        connection.commit()
+
+        # Close the database:
+        connection.close()
+
+
+    else:
+        messagebox.showerror("ERROR: Missing input", "Please ensure that there is data in ALL four fields.")
+        
 
 
