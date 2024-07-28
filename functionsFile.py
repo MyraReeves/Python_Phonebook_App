@@ -100,10 +100,10 @@ def first_run(self):
         # ...and use that variable to execute the "count_records" function: 
         cur, count = count_records(cur)
 
-        # If there isn't any data in the database (ie. zero rows in the only table)...
+        # If there isn't any data in the database (ie. zero rows in this only table)...
         if count < 1:
             # ...then create a 4 indices long tuple of first row example data into the table, to prevent errors:
-            cur.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""", ('Example','Last-name','Example Last-name','555-555-5555','john_doe@example.com'))
+            cur.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""", ('ExampleFirstName','LastName','ExampleFirstName LastName','555-555-5555','john_doe@example.com'))
             # ...and save these changes to the database:
             connection.commit()
     # Close the database:
@@ -124,3 +124,42 @@ def count_records(cur):
     # Return the cursor and the number of rows:
     return cur, count
   
+
+
+# **************** LOOK-UP INFORMATION ********************
+# Create a function to handle if a user selects a name inside the list box:
+def onSelect(self,event):
+    # The event is the self.listBox widget found in the GUI file
+
+    # Save inside of a "varList" variable whatever is triggering the event (that being a user clicking on the listBox widget)
+    varList = event.widget
+
+    # Each name/row inside of the list box has its own index.  Find the index of which one the user selected, and save it in a variable named "select":
+    select = varList.curselection()[0]
+
+    # Find the text inside of that index (i.e. the text inside of "select") of the "varList" variable.  Save that text inside a variable named "value":
+    value = varList.get(select)
+
+    # Connect to the "phonebook" database by using SQLite's built-in "connect()" method:
+    connection = sqlite3.connect('phonebook.db')
+
+    # If creating that connection was successful...
+    with connection:
+        # ...then access the cursor object and assign it to a "cursor" variable...
+        cursor = connection.cursor()
+        # ...and use that "cursor" variable to select the firstName, lastName, phone, and email columns from the phonebook table where the full name is the text in the "value" variable: 
+        cursor.execute("""SELECT column_firstName, column_lastName, column_phone, column_email FROM table_phonebook WHERE column_fullName = (?)""", [value])
+
+        # The above returns a tuple.  So we need to slice it into 4 parts using data[]. The text box fields on the left hand side of the form window also need to be cleared first and then each iteration can be inserted into the corresponding text box so that the user can see the info they resquested:
+        varBody = cursor.fetchall()
+        for data in varBody:
+            self.txt_fname.delete(0,END)
+            self.txt_fname.insert(0,data[0])
+            self.txt_lname.delete(0,END)
+            self.txt_lname.insert(0,data[1])
+            self.txt_phone.delete(0,END)
+            self.txt_phone.insert(0,data[2])
+            self.txt_email.delete(0,END)
+            self.txt_email.insert(0,data[3])
+
+
