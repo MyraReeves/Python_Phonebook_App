@@ -339,3 +339,83 @@ def onRefresh(self):
 
 
 
+# **************** ALLOW ENTRIES TO BE EDITTED ********************
+# Create a function that will allow a user to change an email address or phone number
+def onUpdate(self):
+    try:
+        # Find the index of the full name the user selected within the list box:
+        var_select = self.listBox.curselection()[0]
+        # Get the text contained in that index.  Assign that full name to a "var_value" variable:
+        var_value = self.listBox.get(var_select)
+
+    except:
+        messagebox.showinfo("Missing selection","No name was selected from the list box. \nCancelling the Update request.")
+        return
+
+    # Pull the new text the user wrote inside the phone and email text boxes.  Assign them to variables.  While doing so, also correct for potential user error by removing any leading or trailing white space: 
+    var_phone = self.text_phone.get().strip()
+    var_email = self.text_email.get().strip()
+
+    # If the phone AND email text fields have characters in them (ie. a length greater than zero)...
+    if (len(var_phone) > 0) and (len(var_email) > 0):
+        # ...then connect to the database and access the cursor object...
+        connection = sqlite3.connect('phonebook.db')
+        with connection:
+            cur = connection.cursor()
+
+            # ...then count how many records of the newly inputted phone number or email already exist in the table, because if a record of it already exists, then there is no change and therefore no need to update the database.
+            cur.execute("""SELECT COUNT(column_phone) FROM table_phonebook WHERE column_phone = '{}'""".format(var_phone))
+            count_phone = cur.fetchone()[0]
+            cur.execute("""SELECT COUNT(column_email) FROM table_phonebook WHERE column_email = '{}'""".format(var_email))
+            count_email = cur.fetchone()[0]
+            
+            # If there is no count (zero record) of the proposed new phone number or email already in the database...
+            if count_phone == 0 or count_email == 0:
+                # ...then use a built-in ok/cancel pop-up to have the user confirm the proposed changes: 
+                response = messagebox.askokcancel("CONFIRM UPDATE","The following changes ({}) and ({}) will be implemented for ({}). \n\nProceed?".format(var_phone, var_email, var_value))
+
+                # If the user confirms their wish to update the text values inside those fields...
+                if response:
+                    # ...then connect to the database and access the cursor object...
+                    connection = sqlite3.connectionect('phonebook.db')
+                    with connection:
+                        cursor = connection.cursor()
+                        # ...and use the "update" SQL command to change the information inside of the phone and/or email cells of the selected row:
+                        cursor.execute("""UPDATE table_phonebook SET phone = '{}', column_email = '{}' WHERE column_fullName = '{}'""".format(var_phone, var_email, var_value))
+
+                        # Afterwards, clear all the text boxes on the screen:
+                        onClear(self)
+
+                        # And save the changes to the database:
+                        connection.commit()
+
+                # But if the user pressed the "cancel" button, then let them know that nothing was changed:
+                else:
+                    messagebox.showinfo("CANCEL CONFIRMED","No changes have been made to ({}).".format(var_value))
+
+
+            # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
+            else:
+                messagebox.showinfo("NO CHANGE DETECTED","Both ({}) and ({}) \nalready exist in the database for this person's name. \n\nUpdate is not needed. Cancelling request.".format(var_phone, var_email))
+            # Clear the text boxes:
+            onClear(self)
+
+        # Close the connection to the database:
+        connection.close()
+
+
+    # If the phone AND email text fields don't both have characters in them (ie. they don't both have a length greater than zero), then inform the user that they need to try their request again:
+    else:
+        messagebox.showerror("MISSING INFORMATION","Please select a name from the list. \nThen edit the phone or email information. \nNames can not be changed. \nTo change a name, please delete the existing record and start over.")
+    # Clear the text boxes:
+    onClear(self)
+
+
+
+
+
+
+# **************** If an attempt is made to accidentally run this GUI file as its own stand-alone module, make certain nothing occurs: 
+if __name__ == "__main__":
+    pass
+
