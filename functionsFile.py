@@ -225,7 +225,7 @@ def addToList(self):
                 messagebox.showerror("ERROR: Duplicate Name!","'{}' already exists in the database! Please alter the new name if you are adding a new person's information.".format(var_fullname))
                 onClear(self)
 
-        # Use the commit() method to save the above changes:
+        # Save the above changes to the database:
         connection.commit()
 
         # Close the database:
@@ -271,7 +271,7 @@ def onDelete(self):
                 # Once the requested rows have been deleted from the table, call the "clearOnDeleted" function [See lines 290 to 300] to clear all the textboxes from the screen and to remove the name from the list box:
                 clearOnDeleted(self)
 
-                # Use the commit() method to save the above changes:
+                # Save these changes to the database:
                 connection.commit()
 
         # However, if there is only 1 record left in the database, then let the user know that it isn't currently possible to delete:
@@ -307,5 +307,35 @@ def onClear(self):
     self.txt_phone.delete(0,END)
     self.txt_email.delete(0,END)
     
+
+
+
+# **************** REFRESH THE LIST BOX ********************
+# Create a function to re-populate the listbox with names from the database
+def onRefresh(self):
+    # Delete the current contents of the list box:
+    self.listBox.delete(0,END)
+
+    # Connect to the database and access the cursor object
+    connection = sqlite3.connect('phonebook.db')
+    with connection:
+        cursor = connection.cursor()
+
+        # Count how many records are in the table.  As long as it is more than zero...
+        cursor.execute("""SELECT COUNT(*) FROM table_phonebook""")
+        count = cursor.fetchone()[0]
+        i = 0
+        while i < count:
+                # ...loop thru the table, selecting the contents of the "full name" cell from each row and inserting that text into the list box: 
+                cursor.execute("""SELECT column_fullName FROM table_phonebook""")
+                varList = cursor.fetchall()[i]
+                for item in varList:
+                    self.listBox.insert(0,str(item))
+                    i = i + 1
+ 
+    # Close the database:
+    connection.close()
+
+
 
 
