@@ -82,7 +82,7 @@ def create_db(self):
     # Close the database:
     connection.close()
 
-    # Since the database is currently empty, pass this "create_db" function into the "first_run" function below:
+    # Since the database is currently empty, pass this "create_db" function into the "first_run" function (see Lines 93 to 112):
     first_run(self)
 
 
@@ -99,7 +99,7 @@ def first_run(self):
     with connection:
         # ...then access the cursor object and assign it to the "cur" variable...
         cur = connection.cursor()
-        # ...and use that variable to execute the "count_records" function: 
+        # ...and use that variable to execute the "count_records" function (see Lines 116 to 127): 
         cur, count = count_records(cur)
 
         # If there isn't any data in the database (ie. zero rows in this only table)...
@@ -216,7 +216,7 @@ def addToList(self):
                 cursor.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""",(var_fname, var_lname, var_fullname, var_phone, var_email))
                 # Update the listBox widget by inserting the newly inputted full name:
                 self.listBox.insert(END, var_fullname)
-                # ...and use the onClear() function to clear all of the text boxes to prepare for future user actions:
+                # ...and use the onClear() function [see Lines 304 to 308] to clear all of the text boxes to prepare for future user actions:
                 onClear(self)
 
 
@@ -268,7 +268,7 @@ def onDelete(self):
                     cursor = connection.cursor()
                     # ...then use the SQL command to delete the requested record from the table:
                     cursor.execute("""DELETE FROM table_phonebook WHERE column_fullName = '{}'""".format(var_select))
-                # Once the requested rows have been deleted from the table, call the "clearOnDeleted" function to clear all the textboxes from the screen and to remove the name from the list box:
+                # Once the requested rows have been deleted from the table, call the "clearOnDeleted" function [See lines 290 to 300] to clear all the textboxes from the screen and to remove the name from the list box:
                 clearOnDeleted(self)
 
                 # Use the commit() method to save the above changes:
@@ -307,6 +307,5 @@ def onClear(self):
     self.txt_phone.delete(0,END)
     self.txt_email.delete(0,END)
     
-
 
 
