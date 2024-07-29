@@ -20,7 +20,7 @@ import GUI
 
 
 # **************** CENTER WINDOW ********************
-# Create a function to center the form window in the middle of the screen. To do so, width and height are necessary parameters; they will be set to 500 and 300, respectively, in the main file:
+# Create a function to center the form window in the middle of the screen. To do so, width and height are necessary parameters; they will be set to 585 and 300, respectively, in the main file:
 def center_window(self, w, h):
 
     # Use the built-in Tkinter methods "winfo_screenwidth()" & "winfo_screenheight()" to get the user's screen width and height.  Assign them to variables:
@@ -187,7 +187,7 @@ def addToList(self):
 
     # Correct for user error Part 3 -- Ensure that proper email address format was used:
     if not "@" or not "." in var_email:
-        messagebox.showerror("EMAIL ERROR DETECTED", "Incorrect email format detected! To correct, please UPDATE the newly added record!")
+        messagebox.showerror("EMAIL ERROR DETECTED", "Incorrect email format detected! \nTo correct this error, please UPDATE the newly added entry!")
         onClear(self)
 
     # Create a "var_fullname" variable to hold the combination of the entered first and last names: 
@@ -219,7 +219,7 @@ def addToList(self):
 
             #  If the full name already exists in the database, then disregard the add request, alert the user, and clear the text:
             else:
-                messagebox.showerror("ERROR: Duplicate Name","'{}' already exists in the database! Please choose UPDATE if changing contact information for an existing entry, or alter the newly entered name if adding a new person's information.".format(var_fullname))
+                messagebox.showerror("ERROR: Duplicate Name","'{}' already exists in the database! \nPlease choose UPDATE if you wish to change contact information for an existing entry. \n\nAlter to a different name if you wish to ADD a new person's information to the records.".format(var_fullname))
                 onClear(self)
 
         # Save the above changes to the database:
@@ -393,7 +393,7 @@ def onUpdate(self):
 
             # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
             else:
-                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be updated! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this existing record. \n\nREQUEST TO CHANGE PHONE \\ EMAIL CANCELLED.".format(var_phone, var_email, var_value))
+                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be updated! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this old existing record. \n\nTHIS REQUEST TO CHANGE PHONE \\ EMAIL WAS CANCELLED.".format(var_phone, var_email, var_value))
             # Clear the text boxes:
             onClear(self)
 
@@ -403,7 +403,7 @@ def onUpdate(self):
 
     # If the phone AND email text fields don't both have characters in them (ie. they don't both have a length greater than zero), then inform the user that they need to try their request again:
     else:
-        messagebox.showerror("MISSING INFORMATION","Please select a name from the list. \nThen edit the phone or email information. \nNAMES CAN NOT BE CHANGED. \nTo change a name, please delete the existing record and start over.")
+        messagebox.showerror("MISSING INFORMATION","Please select a name from the list on the right to update. \nThen edit the phone or email information. \n\nNOTE: Names can not be updated. \nTo edit an existing name, please select the name from the list on the left, edit the name fields to the new desired content, ADD the new record of the new name, and then DELETE the old incorrect existing record.")
     # Clear the text boxes:
     onClear(self)
 

@@ -23,12 +23,12 @@ class ParentWindow(Frame):
         self.master = master
 
         # Make the window a set size that can't be resized by the user by setting the minimum and maximum window size to be the same dimensisions:
-        self.master.minsize(700, 300)
-        self.master.maxsize(700, 300)
+        self.master.minsize(585, 300)
+        self.master.maxsize(585, 300)
         # This could have also been done by using:     self.master.resizable(width=False, height=False)
 
         # Access the functions file and use its "center window" function widget.  Pass in the ParentWindow (ie "self") and the height/width dimensions of the window:
-        functionsFile.center_window(self, 700, 300)
+        functionsFile.center_window(self, 585, 300)
 
         # Set a title for this form window that is being created on the screen:
         self.master.title("Phonebook")

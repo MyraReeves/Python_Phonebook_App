@@ -72,10 +72,10 @@ def load_gui(self):
     self.button_update = tk.Button(self.master, width=12, height=2, text='Update', fg="darkblue", bg="lightblue", command=lambda: functionsFile.onUpdate(self))
     self.button_update.grid(row=8, column=1, padx=(15,0), pady=(45,10), sticky=W)
 
-    self.button_delete = tk.Button(self.master, width=12, height=2, text='Delete', fg="red", bg="pink", command=lambda: functionsFile.onDelete(self))
+    self.button_delete = tk.Button(self.master, width=12, height=2, text='Delete', fg="darkred", bg="pink", command=lambda: functionsFile.onDelete(self))
     self.button_delete.grid(row=8, column=2, padx=(15,0), pady=(45,10), sticky=W)
 
-    self.button_close = tk.Button(self.master, width=7, height=2, text='CLOSE', fg="darkred", bg="papayawhip", command=lambda: functionsFile.ask_quit(self))
+    self.button_close = tk.Button(self.master, width=8, height=1, text='EXIT', font=("Courier", 11), fg="darkred", bg="papayawhip", command=lambda: functionsFile.ask_quit(self))
     self.button_close.grid(row=8, column=4, padx=(15,0), pady=(45,10), sticky=E)
 
 
