@@ -233,7 +233,7 @@ def addToList(self):
 
 
     else:
-        messagebox.showerror("ERROR: Missing input", "Please ensure that there is data in ALL four fields.")
+        messagebox.showerror("ERROR: Missing input", "Please ensure that you have entered something into ALL four fields.")
         
 
 
@@ -258,12 +258,12 @@ def onDelete(self):
         # If there are at least two records left in the database...
         if count > 1:
             # Then use the built-in ask pop-up (which contains choice between OK button or Cancel button) function to receive confirmation that the user wishes to delete the record they selected:
-            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "Caution: All information associated with {} \nwill be permanently deleted! \n\nProceed with deletion?".format(var_select))
+            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "CAUTION: All information associated with {} will be permanently deleted from the record! \n\nProceed with this deletion?".format(var_select))
 
             # If the user confirms they want to delete that record:
             if confirm:
                 # Connect to the database, and with the connection access the cursor object:
-                connection = sqlite3.connectionect('phonebook.db')
+                connection = sqlite3.connect('phonebook.db')
                 with connection:
                     cursor = connection.cursor()
                     # ...then use the SQL command to delete the requested record from the table:
@@ -276,7 +276,7 @@ def onDelete(self):
 
         # However, if there is only 1 record left in the database, then let the user know that it isn't currently possible to delete:
         else:
-            confirm = messagebox.showerror("Last Record Error", "{} is the last record remaining inside this database and therefore cannot be deleted. \n\nPlease add a new record first to enable deletion of {} afterwards.".format(var_select, var_select))
+            confirm = messagebox.showerror("Last Record Error", "{} is the last record remaining inside this database and therefore cannot be deleted. \n\nPlease add a new record first to enable deletion of this requested record.".format(var_select))
 
     # Close the database:
     connection.close()
@@ -396,7 +396,7 @@ def onUpdate(self):
 
             # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
             else:
-                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} \nalready exist in the database for {}! \n\nUpdate is not needed. Cancelling request.".format(var_phone, var_email, var_value))
+                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be changed! If an edit to an existing name is needed, please ADD a new record with the updated name and delete this existing record. \n\nRequest to change phone \\\ email cancelled.".format(var_phone, var_email, var_value))
             # Clear the text boxes:
             onClear(self)
 

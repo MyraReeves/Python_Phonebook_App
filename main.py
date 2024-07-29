@@ -31,7 +31,7 @@ class ParentWindow(Frame):
         functionsFile.center_window(self, 500, 300)
 
         # Set a title for this form window that is being created on the screen:
-        self.master.title("Demo Tkinter Phonebook")
+        self.master.title("Phonebook")
 
         # Set the background color of the window to a very light blue shade:
         self.master.configure(bg="#e7feff")
