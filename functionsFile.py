@@ -42,7 +42,7 @@ def center_window(self, w, h):
 # Create a function to confirm a user wants to close the app if that user clicks on the windows upper-right 'X':
 def ask_quit(self):
     # Use Messagebox class's built-in "askokcancel()" method to create a pop-up with two button choices -- "OK" or "Cancel". The first parameter of this method will be the name of the pop-up window; the second parameter is the message inside the pop-up box.
-    if messagebox.askokcancel("Quit", "Exit application?"):
+    if messagebox.askokcancel("QUIT CONFIRMATION", "Exit application?"):
 
         # If the user clicks on OK, then close the app:
         self.master.destroy()
@@ -105,7 +105,7 @@ def first_run(self):
         # If there isn't any data in the database (ie. zero rows in this only table)...
         if count < 1:
             # ...then create a 4 indices long tuple of first row example data into the table, to prevent errors:
-            cur.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""", ('ExampleFirstName','LastName','ExampleFirstName LastName','555-555-5555','john_doe@example.com'))
+            cur.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""", ('Example','Entry','Example Entry','555-555-5555','john_doe@example.com'))
             # ...and save these changes to the database:
             connection.commit()
     # Close the database:
@@ -156,14 +156,14 @@ def onSelect(self,event):
         # The above returns a tuple.  So we need to slice it into 4 parts using data[]. The text box fields on the left hand side of the form window also need to be cleared first and then each iteration can be inserted into the corresponding text box so that the user can see the info they resquested:
         varBody = cursor.fetchall()
         for data in varBody:
-            self.txt_fname.delete(0,END)
-            self.txt_fname.insert(0,data[0])
-            self.txt_lname.delete(0,END)
-            self.txt_lname.insert(0,data[1])
-            self.txt_phone.delete(0,END)
-            self.txt_phone.insert(0,data[2])
-            self.txt_email.delete(0,END)
-            self.txt_email.insert(0,data[3])
+            self.text_firstName.delete(0,END)
+            self.text_firstName.insert(0,data[0])
+            self.text_lastName.delete(0,END)
+            self.text_lastName.insert(0,data[1])
+            self.text_phone.delete(0,END)
+            self.text_phone.insert(0,data[2])
+            self.text_email.delete(0,END)
+            self.text_email.insert(0,data[3])
 
 
 
@@ -258,7 +258,7 @@ def onDelete(self):
         # If there are at least two records left in the database...
         if count > 1:
             # Then use the built-in ask pop-up (which contains choice between OK button or Cancel button) function to receive confirmation that the user wishes to delete the record they selected:
-            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "All information associated with, ({}) \nwill be permanently deleted from the database. \n\nProceed with this deletion?".format(var_select))
+            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "Caution: All information associated with {} \nwill be permanently deleted! \n\nProceed with deletion?".format(var_select))
 
             # If the user confirms they want to delete that record:
             if confirm:
@@ -276,7 +276,7 @@ def onDelete(self):
 
         # However, if there is only 1 record left in the database, then let the user know that it isn't currently possible to delete:
         else:
-            confirm = messagebox.showerror("Last Record Error", "({}) is the last record in the database and cannot be deleted at this time. \n\nPlease add another record first to enable deletion of ({}).".format(var_select,var_select))
+            confirm = messagebox.showerror("Last Record Error", "{} is the last record remaining inside this database and therefore cannot be deleted. \n\nPlease add a new record first to enable deletion of {} afterwards.".format(var_select, var_select))
 
     # Close the database:
     connection.close()
@@ -372,9 +372,9 @@ def onUpdate(self):
             # If there is no count (zero record) of the proposed new phone number or email already in the database...
             if count_phone == 0 or count_email == 0:
                 # ...then use a built-in ok/cancel pop-up to have the user confirm the proposed changes: 
-                response = messagebox.askokcancel("CONFIRM UPDATE","The following changes ({}) and ({}) will be implemented for ({}). \n\nProceed?".format(var_phone, var_email, var_value))
+                response = messagebox.askokcancel("CONFIRM UPDATE","The contact information for {} will be changed to phone: {} and email: {} \n\nProceed with this change?".format(var_value, var_phone, var_email))
 
-                # If the user confirms their wish to update the text values inside those fields...
+                # If the user confirms their wish to update the values inside those fields...
                 if response:
                     # ...then connect to the database and access the cursor object...
                     connection = sqlite3.connectionect('phonebook.db')
@@ -389,14 +389,14 @@ def onUpdate(self):
                         # And save the changes to the database:
                         connection.commit()
 
-                # But if the user pressed the "cancel" button, then let them know that nothing was changed:
+                # But if the user pressed the "Cancel" button, then let them know that nothing was changed:
                 else:
-                    messagebox.showinfo("CANCEL CONFIRMED","No changes have been made to ({}).".format(var_value))
+                    messagebox.showinfo("CANCEL CONFIRMED","No changes have been made to the contact information for {}.".format(var_value))
 
 
             # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
             else:
-                messagebox.showinfo("NO CHANGE DETECTED","Both ({}) and ({}) \nalready exist in the database for this person's name. \n\nUpdate is not needed. Cancelling request.".format(var_phone, var_email))
+                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} \nalready exist in the database for {}! \n\nUpdate is not needed. Cancelling request.".format(var_phone, var_email, var_value))
             # Clear the text boxes:
             onClear(self)
 
@@ -406,7 +406,7 @@ def onUpdate(self):
 
     # If the phone AND email text fields don't both have characters in them (ie. they don't both have a length greater than zero), then inform the user that they need to try their request again:
     else:
-        messagebox.showerror("MISSING INFORMATION","Please select a name from the list. \nThen edit the phone or email information. \nNames can not be changed. \nTo change a name, please delete the existing record and start over.")
+        messagebox.showerror("MISSING INFORMATION","Please select a name from the list. \nThen edit the phone or email information. \nNAMES CAN NOT BE CHANGED. \nTo change a name, please delete the existing record and start over.")
     # Clear the text boxes:
     onClear(self)
 

@@ -33,9 +33,9 @@ def load_gui(self):
     self.label_email = tk.Label(self.master, text = 'Email Address: ')
     self.label_email.grid(row=6, column=0, padx=(27,0), pady=(10,0), sticky=N+W)
 
-    self.label_users = tk.Label(self.master, text = 'Look-up Info: ')
+    self.label_users = tk.Label(self.master, text = 'Show Contact Info For... ')
     # The "Users" area will be in the first row, to the right of the first name area:
-    self.label_user.grid(row=0, column=2, padx=(0,0), pady=(10,0), sticky=N+W)
+    self.label_users.grid(row=0, column=2, padx=(0,0), pady=(10,0), sticky=N+W)
 
 
     # **************** EMPTY TEXT BOXES *****************************
