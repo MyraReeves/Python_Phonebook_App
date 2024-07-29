@@ -187,12 +187,11 @@ def addToList(self):
 
     # Correct for user error Part 3 -- Ensure that proper email address format was used:
     if not "@" or not "." in var_email:
-        print("ERROR: Incorrect email format entered!")
+        messagebox.showerror("EMAIL ERROR DETECTED", "Incorrect email format detected! To correct, please UPDATE the newly added record!")
+        onClear(self)
 
     # Create a "var_fullname" variable to hold the combination of the entered first and last names: 
     var_fullname = ("{} {}".format(var_fname, var_lname))
-    # Allow devs to confirm via the console that the names combined successfully:
-    print("var_fullname: {}".format(var_fullname))
 
     # Correct for user error Part 4 -- Ensure the user didn't leave any fields blank:
     # If the length (ie. number of characters) of EVERY variable is at least 1 character long....
@@ -210,8 +209,6 @@ def addToList(self):
 
             # If the full name does NOT already exist in the database (ie. the count is zero), then proceed with adding the information:
             if checkName == 0:
-                # Check for errors. Allow devs to see in the console that this function is working correctly:
-                print("checkName: {}".format(checkName))
                 # Insert the entered information into the database's table:
                 cursor.execute("""INSERT INTO table_phonebook (column_firstName, column_lastName, column_fullName, column_phone, column_email) VALUES (?,?,?,?,?)""",(var_fname, var_lname, var_fullname, var_phone, var_email))
                 # Update the listBox widget by inserting the newly inputted full name:
@@ -372,7 +369,7 @@ def onUpdate(self):
             # If there is no count (zero record) of the proposed new phone number or email already in the database...
             if count_phone == 0 or count_email == 0:
                 # ...then use a built-in ok/cancel pop-up to have the user confirm the proposed changes: 
-                response = messagebox.askokcancel("CONFIRM UPDATE","The contact information for {} will be changed to phone: {} and email: {} \n\nProceed with this change?".format(var_value, var_phone, var_email))
+                response = messagebox.askokcancel("CONFIRM UPDATE","The new contact information for {} will be \nphone number: {} \nemail address: {} \n\nProceed with this change?".format(var_value, var_phone, var_email))
 
                 # If the user confirms their wish to update the values inside those fields...
                 if response:
@@ -391,12 +388,12 @@ def onUpdate(self):
 
                 # But if the user pressed the "Cancel" button, then let them know that nothing was changed:
                 else:
-                    messagebox.showinfo("CANCEL CONFIRMED","No changes have been made to the contact information for {}.".format(var_value))
+                    messagebox.showinfo("CANCEL CONFIRMED","Cancelled. No changes made to the contact information for {}.".format(var_value))
 
 
             # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
             else:
-                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be changed! If an edit to an existing name is needed, please ADD a new record with the updated name and delete this existing record. \n\nRequest to change phone \\\ email cancelled.".format(var_phone, var_email, var_value))
+                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be changed! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this existing record. \n\nRequest to change phone \\ email cancelled.".format(var_phone, var_email, var_value))
             # Clear the text boxes:
             onClear(self)
 
