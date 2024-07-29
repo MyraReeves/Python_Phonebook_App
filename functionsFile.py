@@ -219,7 +219,7 @@ def addToList(self):
 
             #  If the full name already exists in the database, then disregard the add request, alert the user, and clear the text:
             else:
-                messagebox.showerror("ERROR: Duplicate Name!","'{}' already exists in the database! Please alter the new name if you are adding a new person's information.".format(var_fullname))
+                messagebox.showerror("ERROR: Duplicate Name","'{}' already exists in the database! Please choose UPDATE if changing contact information for an existing entry, or alter the newly entered name if adding a new person's information.".format(var_fullname))
                 onClear(self)
 
         # Save the above changes to the database:
@@ -230,7 +230,7 @@ def addToList(self):
 
 
     else:
-        messagebox.showerror("ERROR: Missing input", "Please ensure that you have entered something into ALL four fields.")
+        messagebox.showerror("ERROR: Missing input", "Addition to records FAILED due to missing information. \nPlease ensure that you have entered something into all four fields.")
         
 
 
@@ -388,12 +388,12 @@ def onUpdate(self):
 
                 # But if the user pressed the "Cancel" button, then let them know that nothing was changed:
                 else:
-                    messagebox.showinfo("CANCEL CONFIRMED","Cancelled. No changes made to the contact information for {}.".format(var_value))
+                    messagebox.showinfo("CANCEL CONFIRMED","Cancelled. No changes were made to the contact information for {}.".format(var_value))
 
 
             # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
             else:
-                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be changed! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this existing record. \n\nRequest to change phone \\ email cancelled.".format(var_phone, var_email, var_value))
+                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be updated! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this existing record. \n\nREQUEST TO CHANGE PHONE \\ EMAIL CANCELLED.".format(var_phone, var_email, var_value))
             # Clear the text boxes:
             onClear(self)
 
