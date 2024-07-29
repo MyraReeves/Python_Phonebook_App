@@ -282,3 +282,31 @@ def onDelete(self):
     connection.close()
 
 
+
+
+# **************** CLEAR TEXT FROM SCREEN (two different functions needed) ********************
+
+# Create a function for after record deletion to clear the text from the screen's text boxes AND delete the name from the list box: 
+def clearOnDeleted(self):
+    self.txt_fname.delete(0,END)
+    self.txt_lname.delete(0,END)
+    self.txt_phone.delete(0,END)
+    self.txt_email.delete(0,END)
+
+    try:
+        index = self.listBox.curselection()[0]
+        self.listBox.delete(index)
+    except IndexError:
+        pass
+
+
+# Create a function (for use in other scenarios) that clears the text from only the screen's text boxes:
+def onClear(self):
+    self.txt_fname.delete(0,END)
+    self.txt_lname.delete(0,END)
+    self.txt_phone.delete(0,END)
+    self.txt_email.delete(0,END)
+    
+
+
+
