@@ -169,7 +169,7 @@ def onSelect(self,event):
 
 
 # **************** ADD NEW INFORMATION INPUTTED BY USER ********************
-# Create a function to add new inputted information from the user into the stored list:
+# Create a function to add new inputted information from the user into the stored list when the "Add" button is pressed:
 def addToList(self):
     var_fname = self.text_firstName.get()
     var_lname = self.text_lastName.get()
@@ -235,5 +235,50 @@ def addToList(self):
     else:
         messagebox.showerror("ERROR: Missing input", "Please ensure that there is data in ALL four fields.")
         
+
+
+
+# **************** ALLOW USER TO DELETE ENTRIES ********************
+# Create a function to delete an entry from the list, upon request from the user via the GUI button:
+def onDelete(self):
+    # Use the built-in "get" function to access the "curselection" function which will in turn find the index of which full name the user clicked on inside the list box:
+    var_select = self.listBox.get(self.listBox.curselection())
+
+    # Connect to the database:
+    connection = sqlite3.connect('phonebook.db')
+
+    # If that connection was successful...
+    with connection:
+        # ...then access the cursor object...
+        cur = connection.cursor()
+        # ...and count how many rows are in the table, because if the database becomes empty that will create errors:
+        cur.execute("""SELECT COUNT(*) FROM table_phonebook""")
+        count = cur.fetchone()[0]
+
+        # If there are at least two records left in the database...
+        if count > 1:
+            # Then use the built-in ask pop-up (which contains choice between OK button or Cancel button) function to receive confirmation that the user wishes to delete the record they selected:
+            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "All information associated with, ({}) \nwill be permanently deleted from the database. \n\nProceed with this deletion?".format(var_select))
+
+            # If the user confirms they want to delete that record:
+            if confirm:
+                # Connect to the database, and with the connection access the cursor object:
+                connection = sqlite3.connectionect('phonebook.db')
+                with connection:
+                    cursor = connection.cursor()
+                    # ...then use the SQL command to delete the requested record from the table:
+                    cursor.execute("""DELETE FROM table_phonebook WHERE column_fullName = '{}'""".format(var_select))
+                # Once the requested rows have been deleted from the table, call the "clearOnDeleted" function to clear all the textboxes from the screen and to remove the name from the list box:
+                clearOnDeleted(self)
+
+                # Use the commit() method to save the above changes:
+                connection.commit()
+
+        # However, if there is only 1 record left in the database, then let the user know that it isn't currently possible to delete:
+        else:
+            confirm = messagebox.showerror("Last Record Error", "({}) is the last record in the database and cannot be deleted at this time. \n\nPlease add another record first to enable deletion of ({}).".format(var_select,var_select))
+
+    # Close the database:
+    connection.close()
 
 
