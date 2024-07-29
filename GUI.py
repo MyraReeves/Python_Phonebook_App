@@ -66,16 +66,16 @@ def load_gui(self):
 
 
     # **************** BUTTONS *****************************
-    self.button_add = tk.Button(self.master, width=12, height=2, text='Add', command=lambda: functionsFile.addToList(self))
+    self.button_add = tk.Button(self.master, width=12, height=2, text='Add', fg="darkgreen", bg="lightgreen", command=lambda: functionsFile.addToList(self))
     self.button_add.grid(row=8, column=0, padx=(25,0), pady=(45,10), sticky=W)
 
-    self.button_update = tk.Button(self.master, width=12, height=2, text='Update', command=lambda: functionsFile.onUpdate(self))
+    self.button_update = tk.Button(self.master, width=12, height=2, text='Update', fg="darkblue", bg="lightblue", command=lambda: functionsFile.onUpdate(self))
     self.button_update.grid(row=8, column=1, padx=(15,0), pady=(45,10), sticky=W)
 
-    self.button_delete = tk.Button(self.master, width=12, height=2, text='Delete', command=lambda: functionsFile.onDelete(self))
+    self.button_delete = tk.Button(self.master, width=12, height=2, text='Delete', fg="red", bg="pink", command=lambda: functionsFile.onDelete(self))
     self.button_delete.grid(row=8, column=2, padx=(15,0), pady=(45,10), sticky=W)
 
-    self.button_close = tk.Button(self.master, width=12, height=2, text='Close', command=lambda: functionsFile.ask_quit(self))
+    self.button_close = tk.Button(self.master, width=22, height=2, text='CLOSE', fg="darkred", bg="papayawhip", command=lambda: functionsFile.ask_quit(self))
     self.button_close.grid(row=8, column=4, padx=(15,0), pady=(45,10), sticky=E)
 
 
