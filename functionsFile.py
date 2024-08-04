@@ -39,10 +39,10 @@ def center_window(self, w, h):
 
 
 # **************** CONFIRM QUIT ********************
-# Create a function to confirm a user wants to close the app if that user clicks on the windows upper-right 'X':
+# Create a function to confirm a user wants to close the app if that user click's on the windows upper-right 'X':
 def ask_quit(self):
-    # Use Messagebox class's built-in "askokcancel()" method to create a pop-up with two button choices -- "OK" or "Cancel". The first parameter of this method will be the name of the pop-up window; the second parameter is the message inside the pop-up box.
-    if messagebox.askokcancel("QUIT CONFIRMATION", "Exit application?"):
+    # Use Messagebox class's built-in "askokcancel()" method to create a pop-up with two button choices -- "OK" or "Cancel". The first parameter of this method will be the name of the pop-up window; the second parameter is the message inside the pop-up box; the third parameter specifies which built-in icon image used.
+    if messagebox.askokcancel("QUIT", "Exit application?", icon='warning'):
 
         # If the user clicks on OK, then close the app:
         self.master.destroy()
@@ -89,7 +89,6 @@ def create_db(self):
 
 
 # **************** INSERT EXAMPLE TEXT INTO DATABASE TABLE ********************
-# Create a function that
 def first_run(self):
 
     # Connect to the "phonebook" database by using SQLite's built-in "connect()" method:
@@ -169,7 +168,7 @@ def onSelect(self,event):
 
 
 # **************** ADD NEW INFORMATION INPUTTED BY USER ********************
-# Create a function to add new inputted information from the user into the stored list when the "Add" button is pressed:
+# Create a function to add a new entry into the stored list when the "Add" button is pressed:
 def addToList(self):
     var_fname = self.text_firstName.get()
     var_lname = self.text_lastName.get()
@@ -187,7 +186,7 @@ def addToList(self):
 
     # Correct for user error Part 3 -- Ensure that proper email address format was used:
     if not "@" or not "." in var_email:
-        messagebox.showerror("EMAIL ERROR DETECTED", "Incorrect email format detected! \nTo correct this error, please UPDATE the newly added entry!")
+        messagebox.showerror("EMAIL ERROR", "Incorrect email format detected! \nTo correct this error, please UPDATE the newly added entry!", icon='error')
         onClear(self)
 
     # Create a "var_fullname" variable to hold the combination of the entered first and last names: 
@@ -219,7 +218,7 @@ def addToList(self):
 
             #  If the full name already exists in the database, then disregard the add request, alert the user, and clear the text:
             else:
-                messagebox.showerror("ERROR: Duplicate Name","'{}' already exists in the database! \nPlease choose UPDATE if you wish to change contact information for an existing entry. \n\nAlter to a different name if you wish to ADD a new person's information to the records.".format(var_fullname))
+                messagebox.showerror("ERROR: Duplicate Name","The name '{}' already exists in the database! \nPlease choose UPDATE if you wish to change contact information for an existing entry. \n\nAlter the new entry to a different name if you wish to ADD a new person's information to the records.".format(var_fullname), icon='error')
                 onClear(self)
 
         # Save the above changes to the database:
@@ -230,7 +229,7 @@ def addToList(self):
 
 
     else:
-        messagebox.showerror("ERROR: Missing input", "Addition to records FAILED due to missing information. \nPlease ensure that you have entered something into all four fields.")
+        messagebox.showerror("ERROR: Missing input", "Addition to records FAILED due to missing information. \nPlease ensure that you have entered something into all four fields.", icon='error')
         
 
 
@@ -255,7 +254,7 @@ def onDelete(self):
         # If there are at least two records left in the database...
         if count > 1:
             # Then use the built-in ask pop-up (which contains choice between OK button or Cancel button) function to receive confirmation that the user wishes to delete the record they selected:
-            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "CAUTION: All information associated with {} will be permanently deleted from the record! \n\nProceed with this deletion?".format(var_select))
+            confirm = messagebox.askokcancel("*** DELETE CONFIRMATION ***", "CAUTION: All information associated with {} will be permanently deleted from the record! \n\nProceed with this deletion?".format(var_select), icon='warning')
 
             # If the user confirms they want to delete that record:
             if confirm:
@@ -273,7 +272,7 @@ def onDelete(self):
 
         # However, if there is only 1 record left in the database, then let the user know that it isn't currently possible to delete:
         else:
-            confirm = messagebox.showerror("Last Record Error", "{} is the last record remaining inside this database and therefore cannot be deleted. \n\nPlease add a new record first to enable deletion of this requested record.".format(var_select))
+            confirm = messagebox.showerror("LAST RECORD", "{} is the last record remaining inside this database and therefore cannot be deleted. \n\nPlease add a new record first to enable deletion of this requested record.".format(var_select), icon='warning')
 
     # Close the database:
     connection.close()
@@ -346,7 +345,7 @@ def onUpdate(self):
         var_value = self.listBox.get(var_select)
 
     except:
-        messagebox.showinfo("Missing selection","No name was selected from the list box. \nCancelling the Update request.")
+        messagebox.showinfo("Missing selection","No name was selected from the list box. \nCancelling the Update request.", icon='error')
         return
 
     # Pull the new text the user wrote inside the phone and email text boxes.  Assign them to variables.  While doing so, also correct for potential user error by removing any leading or trailing white space: 
@@ -369,7 +368,7 @@ def onUpdate(self):
             # If there is no count (zero record) of the proposed new phone number or email already in the database...
             if count_phone == 0 or count_email == 0:
                 # ...then use a built-in ok/cancel pop-up to have the user confirm the proposed changes: 
-                response = messagebox.askokcancel("CONFIRM UPDATE","The new contact information for {} will be \nphone number: {} \nemail address: {} \n\nProceed with this change?".format(var_value, var_phone, var_email))
+                response = messagebox.askokcancel("CONFIRM","The new contact information for {} will be \nphone number: {} \nemail address: {} \n\nProceed with this change?".format(var_value, var_phone, var_email), icon='question')
 
                 # If the user confirms their wish to update the values inside those fields...
                 if response:
@@ -393,7 +392,7 @@ def onUpdate(self):
 
             # If there is already a record of the newly inputted phone number or email already existing in the table (ie. the count of them is 1 or greater), then there is no need to update the database. Inform the user that there is no change:
             else:
-                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be updated! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this old existing record. \n\nTHIS REQUEST TO CHANGE PHONE \\ EMAIL WAS CANCELLED.".format(var_phone, var_email, var_value))
+                messagebox.showinfo("NO CHANGE DETECTED","Both a phone number of {} and an email address of {} already exist in the database for {}! \n\nNames can not be updated! If an edit to an existing name is needed, please ADD a new record with the updated name and then delete this old existing record. \n\nTHIS REQUEST TO CHANGE PHONE \\ EMAIL WAS CANCELLED.".format(var_phone, var_email, var_value), icon='error')
             # Clear the text boxes:
             onClear(self)
 
