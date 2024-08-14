@@ -1,3 +1,3 @@
-# Phonebook App
+# ☎️ Phonebook ☎️
 
 School assignment using Python and Sqlite3.  The assignment was designed to practice using object-oriented programming and Tkinter Parent/Child relationships.
